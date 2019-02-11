@@ -1,0 +1,9 @@
+# Friend list files
+*.list
+
+# Datafiles
+friends.dat
+friends.dat.bak
+
+# Config file
+config.py
