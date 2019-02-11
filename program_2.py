@@ -43,24 +43,29 @@ def scraper(name, url):
 
 
 def getfriendcount():
-    # Frist attempt, most occuring div:
-    divcontent = [post.text for post in driver.find_elements_by_xpath("//div[contains(@class,'_3dc lfloat _ohe _5brz _5bry')]/a")]
-    if len(divcontent) != 0:
-        friendstring = divcontent[0]
-        friendcount = ''
-        for i in friendstring:
-            if i in "1234567890":
-                friendcount = friendcount + i
-    else:
-        # Second attempt, other kind of div, for some reason.
-        divcontent = [post.text for post in driver.find_elements_by_xpath("//div[contains(@class,'_3dc lfloat _ohe _5brz')]/a")]
-        friendstring = divcontent[0]
-        friendcount = ''
-        for i in friendstring:
-            if i in "1234567890":
-                friendcount = friendcount + i
-
-    return int(friendcount)
+    while True:  # Sometimes this part of the code fails and the div does not get detected randomly.
+        # This loop retries on a failed attempt.
+        # Frist attempt, most occuring div:
+        divcontent = [post.text for post in driver.find_elements_by_xpath("//div[contains(@class,'_3dc lfloat _ohe _5brz _5bry')]/a")]
+        if len(divcontent) != 0:
+            friendstring = divcontent[0]
+            friendcount = ''
+            for i in friendstring:
+                if i in "1234567890":
+                    friendcount = friendcount + i
+            return int(friendcount)
+        else:
+            # Second attempt, other kind of div, for some reason.
+            divcontent = [post.text for post in driver.find_elements_by_xpath("//div[contains(@class,'_3dc lfloat _ohe _5brz')]/a")]
+            if len(divcontent) !=0:
+                friendstring = divcontent[0]
+                friendcount = ''
+                for i in friendstring:
+                    if i in "1234567890":
+                        friendcount = friendcount + i
+                return int(friendcount)
+            print("Warning: Friend count could not be detected. Retrying...")
+            time.sleep(5)
 
 
 def scrollcalc(friendcnt):
