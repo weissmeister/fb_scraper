@@ -51,7 +51,7 @@ def scrollcalc(friendcnt):
 
 
 # Check config, exit if we are missing flags.
-if config_url != '' and config_name != '' and config_password != '' and config_email != '':
+if config_url != '' or config_name != '' or config_password != '' or config_email != '':
     print("Running scraper for {0} ({1})".format(config_name, config_email))
 else:
     print("Error: one or more of the options in the config file is empty!\nTerminating...")

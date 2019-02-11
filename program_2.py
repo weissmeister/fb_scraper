@@ -76,7 +76,7 @@ def scrollcalc(friendcnt):
 
 
 # Check config and friends.dat, exit if we are missing flags or the file.
-if config_url != '' and config_name != '' and config_password != '' and config_email != '':
+if config_url != '' or config_name != '' or config_password != '' or config_email != '':
     print("Config file is set up!")
 else:
     print("Error: one or more of the options in the config file is empty!\nTerminating...")
