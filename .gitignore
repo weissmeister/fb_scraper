@@ -7,3 +7,6 @@ friends.dat.bak
 
 # Config file
 config.py
+
+# Geckodriver logfile
+geckodriver.log

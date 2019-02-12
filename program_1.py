@@ -22,6 +22,19 @@ def urlfix(urlarr):
     return fixedurls
 
 
+def remove_deleted_accounts(namearr, urlarr):
+    mergedarr = []
+    counter = 0
+    for ii in range(len(namearr)):
+        if config_url not in urlarr[ii]:  # The removed profile links to your own friend list.
+            mergedarr.append("{0} - {1}\n".format(namearr[ii], urlarr[ii]))
+        else:
+            counter += 1
+            mergedarr.append("{0} - Account deleted\n".format(namearr[ii]))
+    print("Detected {0} deleted accounts.".format(counter))
+    return mergedarr
+
+
 def getfriendcount():
     # Frist attempt, most occuring div:
     divcontent = [post.text for post in driver.find_elements_by_xpath("//div[contains(@class,'_3dc lfloat _ohe _5brz _5bry')]/a")]
@@ -117,9 +130,12 @@ for elem in urlspre:
     urls.append(elem.get_attribute('href'))
 friend_urls = urlfix(urls)
 
+# Get list with all names combined with URLs, detect deleted accounts.
+friend_master = remove_deleted_accounts(friend_names, friend_urls)
+
 # Print friend list in CLI
-for i in range(len(friend_names)):
-    print("\t{0} - {1}".format(friend_names[i], friend_urls[i]))
+for entry in friend_master:
+    print(entry[:-1])  # Not to include the newline character at the end.
 
 # Make master user's friendlist file
 print("Saving friend list...")
@@ -130,8 +146,10 @@ with open("{0}.list".format(config_name), "w") as file:
 # Make master link list
 print("Saving datafile...")
 with open("friends.dat", "w") as file:
-    for i in range(len(friend_names)):
-        file.write("{0} - {1}\n".format(friend_names[i], friend_urls[i]))
+    for entry in friend_master:
+        if "Account deleted" not in entry:  # Leave deleted accounts out of the datafile.
+            file.write(entry)
+
 
 copyfile("friends.dat", "friends.dat.bak")
 
