@@ -1,6 +1,6 @@
 # fb_scraper
 
-Facebook friend scraper, gets you a list of all your friends, and all their friends.
+Facebook friend scraper, gets you a list of all your friends, and all their friends. After getting the lists, it can export the data to two .csv files that can be used by Gephi to visualise your social network.
 
 Works with Python3. (I used 3.7, I have no idea if this works in older versions of Pytyhon3, Python2 will NOT work.)
 
@@ -22,5 +22,9 @@ Run program_2.py, this will create lists of your friends' friends, scraping thei
 left off when you run it again.
 
 All friend lists are saved as Name.list, the datafile is friends.dat (backup is friends.dat.bak).
+
+Depending on whether you only want to include only yourself and your friends, or your friends' friends as well in the .csv files, there are two separate scripts. csv_friends.py will only export yourself and your own friends, and all connections between them, while csv_all.py will export all friend data. Please note that the latter will create a lot of data, Gephi will need quite some time to process it all.
+
+Just run the scrit you want, and import the .csv files in Gephi.
 
 I am not a professional programmer, so don't expect too much fancyness from this. If you have improvements, feel free to open a PR or fork it.
